@@ -8,8 +8,8 @@
 	<body >
 
 		<script type="text/javascript">
-			var app = angular.module("myapp",["Polling"]);	
-	app.controller("PollingController",["$scope","$http","Polling",function($scope, $http, Polling){
+		var app = angular.module("myapp",["Polling"]);	
+		app.controller("PollingController",["$scope","$http","Polling",function($scope, $http, Polling){
 		/*$http.get('https://www.ttmeet.com/serverDate', {
 			headers : {
 				'Access-Control-Allow-Origin' : true
@@ -32,14 +32,14 @@
 			console.warn(error);
 		});*/
 
-		var poll = new Polling({
-				url : 'https://www.ttmeet.com/event/listen?token=1',
-				lasttime : new Date(),
-				onUpdate : function(data){
-					console.info(data);
-				}
-			});
-			poll.start();
+		$scope.poll = new Polling({
+			url : 'https://www.ttmeet.com/event/listen?token=1',
+			lasttime : new Date(),
+			onUpdate : function(data){
+				console.info(data);
+			}
+		});
+		$scope.poll.start();
 		
 	}]);
 		</script>

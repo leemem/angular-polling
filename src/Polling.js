@@ -29,7 +29,7 @@ angular.module('Polling', [])
 
 			this._lasttime = (new Date()).toGMTString().replace(/UTC/,'GMT');
 			this._etag = 0;
-			this._canceler = $q.defer();
+			this._listen_timeout_timer = false;
 
 			extend(this,  options);	
 
@@ -58,6 +58,7 @@ angular.module('Polling', [])
 		request () {
 			let method = this.method.toUpperCase();
 			let othis = this;
+			this._canceler = $q.defer();
 			switch(method){
 				case 'GET':
 					$http.get(this.url, {
@@ -84,6 +85,8 @@ angular.module('Polling', [])
 					.catch(function (error) {
 						console.log(data);
 					});
+
+
 					break;
 				case 'POST':
 					//do nothing, not support now.
@@ -92,6 +95,16 @@ angular.module('Polling', [])
 				default:
 					break;
 			}
+
+			clearTimeout(this._listen_timeout_timer);
+			this._listen_timeout_timer = setTimeout(function(){
+				try {
+					othis.cancel();
+				} catch(e){
+					console.error(e);
+				}			
+				othis.request();
+			},55000);
 		}
 
 		onComplete (data) {

@@ -4,9 +4,9 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-//import CONFIG from './config.json';
-
-//import { Polling } from "./Polling";
+/**
+ * Ajax long-polling client
+ */
 
 var _angular = angular,
     bind = _angular.bind,
@@ -17,8 +17,7 @@ var _angular = angular,
     isNumber = _angular.isNumber,
     isDefined = _angular.isDefined,
     isArray = _angular.isArray,
-    isUndefined = _angular.isUndefined,
-    element = _angular.element;
+    isUndefined = _angular.isUndefined;
 
 
 angular.module('Polling', []).factory('Polling', function ($http, $q) {
@@ -33,7 +32,7 @@ angular.module('Polling', []).factory('Polling', function ($http, $q) {
 
 			this._lasttime = new Date().toGMTString().replace(/UTC/, 'GMT');
 			this._etag = 0;
-			this._canceler = $q.defer();
+			this._listen_timeout_timer = false;
 
 			extend(this, options);
 
@@ -67,6 +66,7 @@ angular.module('Polling', []).factory('Polling', function ($http, $q) {
 			value: function request() {
 				var method = this.method.toUpperCase();
 				var othis = this;
+				this._canceler = $q.defer();
 				switch (method) {
 					case 'GET':
 						$http.get(this.url, {
@@ -91,6 +91,7 @@ angular.module('Polling', []).factory('Polling', function ($http, $q) {
 						}).catch(function (error) {
 							console.log(data);
 						});
+
 						break;
 					case 'POST':
 						//do nothing, not support now.
@@ -99,6 +100,16 @@ angular.module('Polling', []).factory('Polling', function ($http, $q) {
 					default:
 						break;
 				}
+
+				clearTimeout(this._listen_timeout_timer);
+				this._listen_timeout_timer = setTimeout(function () {
+					try {
+						othis.cancel();
+					} catch (e) {
+						console.error(e);
+					}
+					othis.request();
+				}, 55000);
 			}
 		}, {
 			key: 'onComplete',
