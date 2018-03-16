@@ -1,0 +1,26 @@
+{
+  "name": "polling",
+  "version": "0.0.1",
+  "description": "ajax long polling",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"do nothing\""
+  },
+  "keywords": [
+    "ajax",
+    "long-poling",
+    "comet"
+  ],
+  "author": "Leman",
+  "license": "MIT",
+  "devDependencies": {
+    "angular": "^1.6.9",
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "cross-env": "^5.1.4",
+    "express": "^4.16.3"
+  },
+  "dependencies": {
+    "axios": "^0.18.0"
+  }
+}

@@ -1,0 +1,47 @@
+<html  ng-app="myapp" ng-controller="PollingController" class="ng-scope" ng-cloak>
+	<head>
+		<title>A test for pollymer</title>
+		<script type="text/javascript" src="../node_modules/angular/angular.js" ></script>
+		<script type="text/javascript" src="../dist/Polling.js" ></script>
+
+	</head>
+	<body >
+
+		<script type="text/javascript">
+			var app = angular.module("myapp",["Polling"]);	
+	app.controller("PollingController",["$scope","$http","Polling",function($scope, $http, Polling){
+		/*$http.get('https://www.ttmeet.com/serverDate', {
+			headers : {
+				'Access-Control-Allow-Origin' : true
+			}
+		})
+		.then(function(response){
+			var serverTimestamp = response.data;
+			var t = new Date();
+			t.setTime(serverTimestamp);
+			var poll = new Polling({
+				url : 'https://www.ttmeet.com/event/listen?token=1',
+				lasttime : t,
+				onUpdate : function(data){
+					console.info(data);
+				}
+			});
+			poll.start();
+		})
+		.catch(function(error){
+			console.warn(error);
+		});*/
+
+		var poll = new Polling({
+				url : 'https://www.ttmeet.com/event/listen?token=1',
+				lasttime : new Date(),
+				onUpdate : function(data){
+					console.info(data);
+				}
+			});
+			poll.start();
+		
+	}]);
+		</script>
+	</body>
+</html>
