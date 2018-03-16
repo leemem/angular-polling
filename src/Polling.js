@@ -83,7 +83,7 @@ angular.module('Polling', [])
 						othis.request();
 					})
 					.catch(function (error) {
-						console.log(data);
+						console.warn(error);
 					});
 
 

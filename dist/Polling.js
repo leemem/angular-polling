@@ -89,7 +89,7 @@ angular.module('Polling', []).factory('Polling', function ($http, $q) {
 							console.info(response);
 							othis.request();
 						}).catch(function (error) {
-							console.log(data);
+							console.warn(error);
 						});
 
 						break;
