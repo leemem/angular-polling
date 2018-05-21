@@ -17,9 +17,7 @@ let {
 angular.module('Polling', [])
 .factory('Polling',function ($http, $q){
 
-	class Polling{
-		
-		
+	class Polling{	
 
 		constructor(options){
 			//var settings = copy(pollingOtions);
